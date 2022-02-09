@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This API is a basic Product Logistics API which can be used to track the transactions of different products and its delivery to different cities.<br><br>
+A basic Product Logistics API which can be used to track the transactions of different products and its delivery to different cities.<br><br>
 The `app/data/data.csv` file can be replaced according to your needs since the database is constructed using this csv file.<br>
 For testing purposes, `dumpCSV.py` uses `faker` library to generate a fake dataset which is used to run the demo. This csv file is saved at `app/data/data.csv`.
 
