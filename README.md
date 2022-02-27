@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A basic Product Logistics API which can be used to track the transactions of different products and its delivery to different cities.<br><br>
-The `app/data/data.csv` file can be replaced according to your needs since the database is constructed using this csv file.<br>
+The `app/data/data.csv` file can be replaced according to your needs since the `data_table` is constructed using this csv file.<br>
 For testing purposes, `dumpCSV.py` uses `faker` library to generate a fake dataset which is used to run the demo. This csv file is saved at `app/data/data.csv`.
 
 # Database Schema
@@ -42,7 +42,9 @@ psql -c "GRANT ALL privileges on database product_logistics_db to product_logist
 
 # API Usage
 
-This API has been developed with Python version 3.8.5 and it is expected that the Python version installed in your system is 3.8.5 or above.
+- This API has been developed with Python version 3.8.5 and it is expected that the Python version installed in your system is 3.8.5 or above.
+
+- A default admin user with username `admin` and password `admin` will be created. You are expected to update the password using `/user/update/` endpoint before using the API in production.
 
 ## Install the dependencies & run
 
@@ -65,6 +67,20 @@ python main.py
   ```
   http://0.0.0.0:5000/docs#/
   ```
+
+- `/access_token`: To get the access token to use `/user` and `/data` endpoints. The access token expires in 30 mins, after which you will need to get it again. This is hardcoded and can be changed according to your needs by editing the `ACCESS_TOKEN_EXPIRE_MINUTES` variable in `main.py`.
+
+- `/users/me`: To get info about the current logged in user.
+
+- `/user/create/`: Create a new admin user.
+
+- `/user/update/`: Update the password of an existing admin user.
+
+- `/user/delete/`: Delete an existing admin user.
+
+- `/users/`: Get info of all admin users
+
+- `/users/{user_id}`: Get info of admin user by user_id
 
 - `/data/upload`: API endpoint to upload the created CSV file to the server. The contents in the file would be moved to a Database (either PostgreSQL or MySQL as configured).
 
@@ -90,6 +106,7 @@ python main.py
 
 ### Notes:
 
-- `dumpCSV.py` which can be found in the root directory. Uses `faker` python library to build 1000 records of fake data which is saved as a CSV file at `app/data/data.csv`
+- `dumpCSV.py` which can be found in the `/app/utils` directory uses `faker` python library to build 1000 records of fake data which is saved as a CSV file at `app/data/data.csv`.
+- The `app/data/data.csv` file can be replaced according to your needs since the `data_table` is constructed using this csv file.
 
 ---

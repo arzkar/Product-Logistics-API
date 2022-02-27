@@ -14,6 +14,7 @@
 
 from uuid import uuid4, UUID
 from datetime import datetime
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -57,3 +58,40 @@ class Data(DataBase):
 
     class Config:
         orm_mode = True
+
+
+class AdminUserBase(BaseModel):
+    pass
+
+
+class AdminUserCreate(AdminUserBase):
+    username: str
+    password: str
+
+
+class AdminUserDelete(AdminUserBase):
+    username: str
+
+
+class AdminUserInDB(AdminUserBase):
+    username: str
+    password: str
+    disabled: Optional[bool] = False
+
+
+class AdminUser(AdminUserBase):
+    user_id: int
+    username: str
+    data: List[Data] = []
+
+    class Config:
+        orm_mode = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None

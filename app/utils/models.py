@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from sqlalchemy import Column, Integer, String, DateTime, Float
+from sqlalchemy import Column, Integer, String, DateTime, Float, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from app.utils.database import Base
 import uuid
@@ -29,3 +29,12 @@ class Data(Base):
     unit_price = Column(Float)
     total_price = Column(Float)
     delivered_to_city = Column(String)
+
+
+class AdminUser(Base):
+    __tablename__ = "admin_user"
+
+    user_id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    password = Column(String)
+    disabled = Column(Boolean, default=False)

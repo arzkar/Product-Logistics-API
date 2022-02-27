@@ -104,3 +104,47 @@ async def paginate_data(page: int, entries_per_page: int, db: Session):
               for i in range(0, len(all_rows), entries_per_page)]
 
     return output[page-1]  # index starts from 0
+
+
+async def get_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.AdminUser).offset(skip).limit(limit).all()
+
+
+async def get_user_by_id(db: Session, id: int):
+    return db.query(models.AdminUser).filter(models.AdminUser.user_id == id).first()
+
+
+async def get_user_by_username(db: Session, username: str):
+    return db.query(models.AdminUser).filter(models.AdminUser.username == username).first()
+
+
+async def create_admin_user(db: Session, user: schemas.AdminUserCreate,
+                            password: schemas.AdminUserCreate):
+
+    db_user = models.AdminUser(
+        username=user.username, password=password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+async def update_admin_user(db: Session, user: schemas.AdminUserCreate,
+                            password: schemas.AdminUserCreate):
+
+    db_user = models.AdminUser(
+        username=user.username, password=password)
+    db.query(models.AdminUser).filter(
+        models.AdminUser.username == db_user.username) \
+        .update({models.AdminUser.password: db_user.password})
+    db.commit()
+    return "User updated successfully"
+
+
+async def delete_admin_user(db: Session, user: schemas.AdminUserDelete):
+
+    db_user = db.query(models.AdminUser).filter(
+        models.AdminUser.username == user.username).first()
+    db.delete(db_user)
+    db.commit()
+    return "User deleted successfully"
